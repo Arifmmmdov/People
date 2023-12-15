@@ -59,4 +59,9 @@ dependencies {
     testImplementation("com.google.dagger:hilt-android-testing:3.0.1")
     testAnnotationProcessor("com.google.dagger:hilt-compiler:3.0.1")
 
+    //Networking
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:5.0.0-beta5")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
 }
