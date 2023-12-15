@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
         Toast.makeText(this, "Your name is " + name, Toast.LENGTH_LONG).show()
     }
 }
