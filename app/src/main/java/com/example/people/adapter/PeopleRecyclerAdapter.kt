@@ -6,17 +6,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.people.R
 import com.example.people.databinding.RecyclerItemBinding
-import com.example.people.model.Country
-import com.example.people.model.Person
+import com.example.people.db.DBCountry
+import com.example.people.db.DBPerson
+import com.example.people.extensions.getPeopleList
 
-class PeopleRecyclerAdapter(private val context: Context, private val countryList: List<Country>) :
+class PeopleRecyclerAdapter(private val context: Context, private val countryList: List<DBCountry>) :
     RecyclerView.Adapter<PeopleRecyclerAdapter.MViewHolder>() {
 
-    var people: List<Person> = countryList.getPeopleList()
+    var people: List<DBPerson> = countryList.getPeopleList()
 
     inner class MViewHolder(private val binding: RecyclerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(person: Person) {
+        fun bind(person: DBPerson) {
             binding.name.text =
                 context.getString(R.string.name_surname, person.name, person.surname)
         }
@@ -38,16 +39,8 @@ class PeopleRecyclerAdapter(private val context: Context, private val countryLis
         holder.bind(people[position])
     }
 
-    fun filterList(filteredList: List<Country>?) {
+    fun filterList(filteredList: List<DBCountry>?) {
         people = filteredList?.getPeopleList()!!
         this.notifyDataSetChanged()
-    }
-
-    private fun List<Country>.getPeopleList(): List<Person> {
-        return this.flatMap {
-            it.cities.flatMap { city ->
-                city.people
-            }
-        }
     }
 }

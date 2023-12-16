@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.people.adapter.PeopleRecyclerAdapter
 import com.example.people.databinding.ActivityMainBinding
-import com.example.people.model.Country
+import com.example.people.db.DBCountry
 import com.example.people.viewmodel.PeopleViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setUpRecycler(countries: List<Country>?) {
+    private fun setUpRecycler(countries: List<DBCountry>?) {
         binding.recyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         adapter = PeopleRecyclerAdapter(this, countries!!)
