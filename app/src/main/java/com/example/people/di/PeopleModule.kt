@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.people.db.PeopleDao
 import com.example.people.db.RoomDB
+import com.example.people.helper.FilterDialog
 import com.example.people.network.PeopleAPIService
 import com.example.people.repository.PeopleRepository
 import com.example.people.viewmodel.PeopleViewModel
@@ -53,5 +54,10 @@ class PeopleModule {
     @Provides
     fun getDao(roomDB: RoomDB): PeopleDao {
         return roomDB.peopleDao()
+    }
+
+    @Provides
+    fun getFilterDialog(): FilterDialog {
+        return FilterDialog()
     }
 }

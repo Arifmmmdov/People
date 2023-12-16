@@ -4,9 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
 @Dao
 interface PeopleDao {
@@ -24,6 +21,12 @@ interface PeopleDao {
 
     @Query("DELETE FROM people_table")
     fun deleteAll()
+
+    @Query("Select country_name FROM people_table")
+    fun getCountriesName(): List<String>
+
+    @Query("Select cities FROM people_table")
+    fun getCitiesList(): List<DBCity>
 
     @Query("SELECT COUNT(*) FROM people_table")
     fun getCount(): Int

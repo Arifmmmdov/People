@@ -51,12 +51,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:id="@+id/countryFilter"
             android:src="@drawable/ic_filter_country" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:id="@+id/cityFilter"
             android:layout_marginStart="10dp"
             android:src="@drawable/ic_filter_city" />
     </androidx.appcompat.widget.LinearLayoutCompat>

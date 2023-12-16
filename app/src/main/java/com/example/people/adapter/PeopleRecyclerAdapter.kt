@@ -39,7 +39,12 @@ class PeopleRecyclerAdapter(private val context: Context, private val countryLis
         holder.bind(people[position])
     }
 
-    fun filterList(filteredList: List<DBCountry>?) {
+    fun filterList(isCountry: Boolean, selectedItems: List<String>) {
+        people = selectedItems?.getPeopleList()!!
+        this.notifyDataSetChanged()
+    }
+
+    fun filterList(filteredList: List<DBCountry>) {
         people = filteredList?.getPeopleList()!!
         this.notifyDataSetChanged()
     }

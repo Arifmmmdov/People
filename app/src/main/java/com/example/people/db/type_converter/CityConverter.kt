@@ -19,4 +19,8 @@ class CityConverter {
         val type = object : TypeToken<List<DBCity>>() {}.type
         return gson.fromJson(citiesString, type)
     }
+
+    fun getCityNames(cities: List<DBCity>): List<String> {
+        return cities.map { it.cityName }
+    }
 }

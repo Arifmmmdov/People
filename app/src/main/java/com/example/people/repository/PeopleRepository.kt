@@ -3,6 +3,7 @@ package com.example.people.repository
 
 import com.example.people.db.DBCountry
 import com.example.people.db.PeopleDao
+import com.example.people.db.type_converter.CityConverter
 import com.example.people.extensions.toDBCountries
 import com.example.people.helper.UnaryConsumer
 import com.example.people.helper.awaitResult
@@ -44,14 +45,26 @@ class PeopleRepository @Inject constructor(
     }
 
     suspend fun isEmpty(): Boolean {
-        return withContext(Dispatchers.IO){
+        return withContext(Dispatchers.IO) {
             userDao.getCount() == 0
         }
     }
 
     suspend fun insertAll(countries: List<Country>) {
-        CoroutineScope(Dispatchers.IO).launch {
+        withContext(Dispatchers.IO) {
             userDao.insertAll(countries.toDBCountries())
+        }
+    }
+
+    suspend fun getCountriesName(): List<String> {
+        return withContext(Dispatchers.IO) {
+            userDao.getCountriesName()
+        }
+    }
+
+    suspend fun getCityNames(): List<String> {
+        return withContext(Dispatchers.IO) {
+            CityConverter().getCityNames(userDao.getCitiesList())
         }
     }
 }

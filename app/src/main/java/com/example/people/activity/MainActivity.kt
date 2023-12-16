@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.people.adapter.PeopleRecyclerAdapter
 import com.example.people.databinding.ActivityMainBinding
 import com.example.people.db.DBCountry
+import com.example.people.helper.FilterDialog
 import com.example.people.viewmodel.PeopleViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -38,6 +39,22 @@ class MainActivity : AppCompatActivity() {
         binding.refreshLayout.setOnRefreshListener {
             viewModel.fetchData(true)
         }
+
+        binding.countryFilter.setOnClickListener{
+            showFilterDialog(true)
+        }
+
+        binding.cityFilter.setOnClickListener{
+            showFilterDialog(false)
+        }
+    }
+
+    private fun showFilterDialog(isCountry: Boolean) {
+        viewModel.showFilterDialog(isCountry,object:FilterDialog.FilterDialogListener{
+            override fun onItemsSelected(selectedItems: List<String>) {
+                adapter!!.filterList(isCountry,selectedItems)
+            }
+        })
     }
 
     private fun setUpViewModel() {
@@ -47,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                 setUpRecycler(data)
             } else {
                 Log.d("MyTagHere", "setUpViewModel: Data added or filtered!")
-                adapter!!.filterList(data)
+                adapter!!.filterList(data, selectedItems)
                 Toast.makeText(this, "Data added or filtered!", Toast.LENGTH_LONG).show()
             }
             binding.refreshLayout.isRefreshing = false
