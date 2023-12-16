@@ -14,7 +14,7 @@ class PeopleViewModel @Inject constructor(private val repository: PeopleReposito
     private val _data = MutableLiveData<List<Country>>()
     val data: LiveData<List<Country>?> get() = _data
 
-    fun fetchData() {
+    fun fetchData(isForced: Boolean) {
         repository.getCountries(object : UnaryConsumer<PeopleResponse> {
             override fun invoke(response: PeopleResponse) {
                 _data.value = response.countries

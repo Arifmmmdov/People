@@ -31,18 +31,26 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         setUpViewModel()
+        setListeners()
+    }
+
+    private fun setListeners() {
+        binding.refreshLayout.setOnRefreshListener {
+            viewModel.fetchData(true)
+        }
     }
 
     private fun setUpViewModel() {
-        viewModel.fetchData()
+        viewModel.fetchData(false)
         viewModel.data.observe(this) { data ->
             if (adapter == null) {
                 setUpRecycler(data)
             } else {
                 Log.d("MyTagHere", "setUpViewModel: Data added or filtered!")
+                adapter!!.filterList(data)
                 Toast.makeText(this, "Data added or filtered!", Toast.LENGTH_LONG).show()
             }
-
+            binding.refreshLayout.isRefreshing = false
         }
 
     }

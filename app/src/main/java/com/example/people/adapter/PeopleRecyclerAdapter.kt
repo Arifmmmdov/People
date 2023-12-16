@@ -11,15 +11,11 @@ import com.example.people.model.Person
 
 class PeopleRecyclerAdapter(private val context: Context, private val countryList: List<Country>) :
     RecyclerView.Adapter<PeopleRecyclerAdapter.MViewHolder>() {
-    private lateinit var binding: RecyclerItemBinding
 
-    var people: List<Person> = countryList.flatMap {
-        it.cities.flatMap {
-            it.people
-        }
-    }
+    var people: List<Person> = countryList.getPeopleList()
 
-    inner class MViewHolder(binding: RecyclerItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MViewHolder(private val binding: RecyclerItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(person: Person) {
             binding.name.text =
                 context.getString(R.string.name_surname, person.name, person.surname)
@@ -27,15 +23,31 @@ class PeopleRecyclerAdapter(private val context: Context, private val countryLis
 
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        binding = RecyclerItemBinding.inflate(layoutInflater, parent, false)
-        return MViewHolder(binding)
+        return MViewHolder(RecyclerItemBinding.inflate(layoutInflater, parent, false))
     }
 
     override fun getItemCount(): Int = people.size
 
     override fun onBindViewHolder(holder: MViewHolder, position: Int) {
         holder.bind(people[position])
+    }
+
+    fun filterList(filteredList: List<Country>?) {
+        people = filteredList?.getPeopleList()!!
+        this.notifyDataSetChanged()
+    }
+
+    private fun List<Country>.getPeopleList(): List<Person> {
+        return this.flatMap {
+            it.cities.flatMap { city ->
+                city.people
+            }
+        }
     }
 }
