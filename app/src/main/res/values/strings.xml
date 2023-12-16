@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">People</string>
     <string name="people">People</string>
+    <string name="name_surname">%s %s</string>
 </resources>
