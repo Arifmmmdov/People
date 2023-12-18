@@ -2,6 +2,7 @@ package com.example.people.db.type_converter
 
 import androidx.room.TypeConverter
 import com.example.people.db.DBCity
+import com.example.people.db.DBCountry
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -18,9 +19,5 @@ class CityConverter {
         val gson = Gson()
         val type = object : TypeToken<List<DBCity>>() {}.type
         return gson.fromJson(citiesString, type)
-    }
-
-    fun getCityNames(cities: List<DBCity>): List<String> {
-        return cities.map { it.cityName }
     }
 }

@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 class PeopleRepository @Inject constructor(
     private val apiService: PeopleAPIService,
-    private val userDao: PeopleDao
+    private val userDao: PeopleDao,
 ) {
 
     private fun callCountriesAPI(): Call<PeopleResponse> {
@@ -31,7 +31,7 @@ class PeopleRepository @Inject constructor(
     }
 
     fun getCountries(
-        onComplete: UnaryConsumer<PeopleResponse>
+        onComplete: UnaryConsumer<PeopleResponse>,
     ) {
         CoroutineScope(Dispatchers.Main).launch {
             onComplete(getCountriesAsync())
@@ -62,9 +62,9 @@ class PeopleRepository @Inject constructor(
         }
     }
 
-    suspend fun getCityNames(): List<String> {
-        return withContext(Dispatchers.IO) {
-            CityConverter().getCityNames(userDao.getCitiesList())
-        }
-    }
+//    suspend fun getCityNames(): List<String> {
+//        return withContext(Dispatchers.IO) {
+//            CityConverter().getCityNames(userDao.getAll())
+//        }
+//    }
 }

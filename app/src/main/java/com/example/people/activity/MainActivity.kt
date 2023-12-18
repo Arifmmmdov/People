@@ -40,21 +40,17 @@ class MainActivity : AppCompatActivity() {
             viewModel.fetchData(true)
         }
 
-        binding.countryFilter.setOnClickListener{
+        binding.countryFilter.setOnClickListener {
             showFilterDialog(true)
         }
 
-        binding.cityFilter.setOnClickListener{
+        binding.cityFilter.setOnClickListener {
             showFilterDialog(false)
         }
     }
 
     private fun showFilterDialog(isCountry: Boolean) {
-        viewModel.showFilterDialog(isCountry,object:FilterDialog.FilterDialogListener{
-            override fun onItemsSelected(selectedItems: List<String>) {
-                adapter!!.filterList(isCountry,selectedItems)
-            }
-        })
+        viewModel.showFilterDialog(isCountry, this)
     }
 
     private fun setUpViewModel() {
@@ -63,11 +59,19 @@ class MainActivity : AppCompatActivity() {
             if (adapter == null) {
                 setUpRecycler(data)
             } else {
-                Log.d("MyTagHere", "setUpViewModel: Data added or filtered!")
-                adapter!!.filterList(data, selectedItems)
-                Toast.makeText(this, "Data added or filtered!", Toast.LENGTH_LONG).show()
+                adapter!!.filterCountryList(data!!)
             }
             binding.refreshLayout.isRefreshing = false
+        }
+
+        viewModel.filteredCountry.observe(this) { country ->
+            if (country?.isNotEmpty() == true)
+                adapter!!.filterCountryList(country)
+        }
+
+        viewModel.filteredCity.observe(this) { city ->
+            if (city?.isNotEmpty() == true)
+                adapter!!.filterCityList(city)
         }
 
     }

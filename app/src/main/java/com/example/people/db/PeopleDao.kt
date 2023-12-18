@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 
 @Dao
 interface PeopleDao {
@@ -24,9 +25,6 @@ interface PeopleDao {
 
     @Query("Select country_name FROM people_table")
     fun getCountriesName(): List<String>
-
-    @Query("Select cities FROM people_table")
-    fun getCitiesList(): List<DBCity>
 
     @Query("SELECT COUNT(*) FROM people_table")
     fun getCount(): Int

@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.example.people.db.type_converter.CityConverter
+import com.example.people.db.type_converter.PersonListConverter
 
 //data class DBCountries(
 //    @PrimaryKey(autoGenerate = true) val id: Int,
@@ -20,7 +21,7 @@ data class DBCountry(
     val countryName: String,
     @TypeConverters(CityConverter::class)
     @ColumnInfo(name = "cities")
-    val cities: List<DBCity>
+    val cities: List<DBCity>,
 )
 
 data class DBCity(
@@ -28,8 +29,9 @@ data class DBCity(
     val id: Int,
     @ColumnInfo(name = "city_name")
     val cityName: String,
+    @TypeConverters(PersonListConverter::class)
     @ColumnInfo(name = "people")
-    val people: List<DBPerson>
+    val people: List<DBPerson>,
 )
 
 data class DBPerson(
@@ -38,5 +40,5 @@ data class DBPerson(
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "surname")
-    val surname: String
+    val surname: String,
 )

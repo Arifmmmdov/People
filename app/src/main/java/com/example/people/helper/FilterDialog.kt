@@ -2,24 +2,29 @@ package com.example.people.helper
 
 import android.app.AlertDialog
 import android.content.Context
+import dagger.Provides
+import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class FilterDialog(@ApplicationContext val context: Context) {
+class FilterDialog {
+
     interface FilterDialogListener {
         fun onItemsSelected(selectedItems: List<String>)
     }
 
     fun showSelectListDialog(
         title: String,
-        items: Array<String>,
-        listener: FilterDialogListener
+        context: Context,
+        items: List<String>,
+        checkedItems: BooleanArray,
+        listener: FilterDialogListener,
     ) {
         val selectedItems = ArrayList<String>()
 
         val builder = AlertDialog.Builder(context)
         builder.setTitle(title)
-            .setMultiChoiceItems(items, null) { _, which, isChecked ->
+            .setMultiChoiceItems(items.toTypedArray(), checkedItems) { _, which, isChecked ->
                 if (isChecked) {
                     selectedItems.add(items[which])
                 } else if (selectedItems.contains(items[which])) {

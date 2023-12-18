@@ -1,5 +1,6 @@
 package com.example.people.helper
 
+import android.util.Log
 import com.example.people.model.PeopleResponse
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
@@ -13,7 +14,7 @@ suspend fun Call<PeopleResponse>.awaitResult(): PeopleResponse {
 
             override fun onResponse(
                 call: Call<PeopleResponse>,
-                response: retrofit2.Response<PeopleResponse>
+                response: retrofit2.Response<PeopleResponse>,
             ) {
                 val body = response.body()
                 it.resume(body!!)
@@ -21,6 +22,7 @@ suspend fun Call<PeopleResponse>.awaitResult(): PeopleResponse {
 
             override fun onFailure(call: Call<PeopleResponse>, t: Throwable) {
                 it.resume(PeopleResponse(listOf()))
+                Log.d("MyTagHere", call.toString())
             }
         })
     }
