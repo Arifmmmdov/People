@@ -7,6 +7,6 @@ import retrofit2.http.GET
 
 interface PeopleAPIService {
 
-       @GET("/tayqa/tiger/api/development/test/TayqaTech/getdata")
-       fun getCountries(): Call<PeopleResponse>
+    @GET("/tayqa/tiger/api/development/test/TayqaTech/getdata")
+    fun getCountries(): Call<PeopleResponse>
 }

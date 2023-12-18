@@ -3,10 +3,9 @@ package com.example.people.repository
 
 import com.example.people.db.DBCountry
 import com.example.people.db.PeopleDao
-import com.example.people.db.type_converter.CityConverter
 import com.example.people.extensions.toDBCountries
 import com.example.people.helper.UnaryConsumer
-import com.example.people.helper.awaitResult
+import com.example.people.extensions.awaitResult
 import com.example.people.model.Country
 import com.example.people.model.PeopleResponse
 import com.example.people.network.PeopleAPIService
@@ -22,15 +21,15 @@ class PeopleRepository @Inject constructor(
     private val userDao: PeopleDao,
 ) {
 
-    private fun callCountriesAPI(): Call<PeopleResponse> {
+    private fun callCountriesApi(): Call<PeopleResponse> {
         return apiService.getCountries()
     }
 
     private suspend fun getCountriesAsync(): PeopleResponse {
-        return callCountriesAPI().awaitResult()
+        return callCountriesApi().awaitResult()
     }
 
-    fun getCountries(
+    fun getCountriesFromApi(
         onComplete: UnaryConsumer<PeopleResponse>,
     ) {
         CoroutineScope(Dispatchers.Main).launch {
@@ -38,13 +37,13 @@ class PeopleRepository @Inject constructor(
         }
     }
 
-    suspend fun getLocalCountries(): List<DBCountry> {
+    suspend fun getAll(): List<DBCountry> {
         return withContext(Dispatchers.IO) {
             userDao.getAll()
         }
     }
 
-    suspend fun isEmpty(): Boolean {
+    suspend fun isDBEmpty(): Boolean {
         return withContext(Dispatchers.IO) {
             userDao.getCount() == 0
         }
@@ -55,16 +54,4 @@ class PeopleRepository @Inject constructor(
             userDao.insertAll(countries.toDBCountries())
         }
     }
-
-    suspend fun getCountriesName(): List<String> {
-        return withContext(Dispatchers.IO) {
-            userDao.getCountriesName()
-        }
-    }
-
-//    suspend fun getCityNames(): List<String> {
-//        return withContext(Dispatchers.IO) {
-//            CityConverter().getCityNames(userDao.getAll())
-//        }
-//    }
 }

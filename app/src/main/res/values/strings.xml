@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">People</string>
-    <string name="people">People</string>
     <string name="name_surname">%s %s</string>
     <string name="filter_country">Fitler country</string>
     <string name="filter_city">Fitler city</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
 </resources>

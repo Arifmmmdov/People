@@ -1,4 +1,4 @@
-package com.example.people.helper
+package com.example.people.extensions
 
 import android.util.Log
 import com.example.people.model.PeopleResponse

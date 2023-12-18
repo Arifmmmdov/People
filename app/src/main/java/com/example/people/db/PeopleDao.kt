@@ -11,15 +11,6 @@ interface PeopleDao {
     @Query("SELECT * FROM people_table")
     fun getAll(): List<DBCountry>
 
-//    @Transaction
-//    fun updateAll(countries: DBCountries) {
-//        deleteAll()
-//        insertAll(countries)
-//    }
-
-    @Insert
-    fun insert(countries: DBCountry)
-
     @Query("DELETE FROM people_table")
     fun deleteAll()
 
@@ -31,6 +22,5 @@ interface PeopleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(people: List<DBCountry>)
-
 
 }

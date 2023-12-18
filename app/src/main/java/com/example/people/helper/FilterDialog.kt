@@ -2,10 +2,8 @@ package com.example.people.helper
 
 import android.app.AlertDialog
 import android.content.Context
-import dagger.Provides
-import dagger.hilt.android.qualifiers.ActivityContext
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
+import com.example.people.R
+import com.example.people.extensions.toArrayList
 
 class FilterDialog {
 
@@ -17,26 +15,37 @@ class FilterDialog {
         title: String,
         context: Context,
         items: List<String>,
-        checkedItems: BooleanArray,
+        selectedList: List<String>?,
         listener: FilterDialogListener,
     ) {
-        val selectedItems = ArrayList<String>()
+
+        val selectedArrayList = selectedList.toArrayList()
+        val checkedItems = getCheckedItems(items, selectedList)
 
         val builder = AlertDialog.Builder(context)
         builder.setTitle(title)
             .setMultiChoiceItems(items.toTypedArray(), checkedItems) { _, which, isChecked ->
                 if (isChecked) {
-                    selectedItems.add(items[which])
-                } else if (selectedItems.contains(items[which])) {
-                    selectedItems.remove(items[which])
+                    selectedArrayList.add(items[which])
+                } else if (selectedArrayList.contains(items[which])) {
+                    selectedArrayList.remove(items[which])
                 }
             }
-            .setPositiveButton("OK") { _, _ ->
-                listener.onItemsSelected(selectedItems)
+            .setPositiveButton(R.string.ok) { _, _ ->
+                listener.onItemsSelected(selectedArrayList)
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(R.string.cancel, null)
 
         val dialog = builder.create()
         dialog.show()
+    }
+
+    private fun getCheckedItems(
+        items: List<String>,
+        selectedItems: List<String>?,
+    ): BooleanArray {
+        return items.map {
+            it in (selectedItems ?: arrayListOf())
+        }.toBooleanArray()
     }
 }

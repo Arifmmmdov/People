@@ -9,18 +9,16 @@ import com.example.people.databinding.RecyclerItemBinding
 import com.example.people.db.DBCity
 import com.example.people.db.DBCountry
 import com.example.people.db.DBPerson
-import com.example.people.extensions.cityPeople
-import com.example.people.extensions.countryPeople
-import com.example.people.extensions.filterCity
-import com.example.people.extensions.filterCountry
+import com.example.people.extensions.toCityPeople
+import com.example.people.extensions.toCountryPeople
 
-class PeopleRecyclerAdapter(
+class RecyclerAdapter(
     private val context: Context,
     private val countryList: List<DBCountry>,
 ) :
-    RecyclerView.Adapter<PeopleRecyclerAdapter.MViewHolder>() {
+    RecyclerView.Adapter<RecyclerAdapter.MViewHolder>() {
 
-    var people: List<DBPerson> = countryList.countryPeople()
+    var people: List<DBPerson> = countryList.toCountryPeople()
 
     inner class MViewHolder(private val binding: RecyclerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -48,13 +46,13 @@ class PeopleRecyclerAdapter(
 
     fun filterCityList(filteredCity: List<DBCity>?) {
         people = filteredCity!!
-            .cityPeople()
+            .toCityPeople()
         notifyDataSetChanged()
     }
 
     fun filterCountryList(filteredList: List<DBCountry>?) {
         people = filteredList!!
-            .countryPeople()
+            .toCountryPeople()
         notifyDataSetChanged()
     }
 }

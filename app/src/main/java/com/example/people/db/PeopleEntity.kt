@@ -7,12 +7,6 @@ import androidx.room.TypeConverters
 import com.example.people.db.type_converter.CityConverter
 import com.example.people.db.type_converter.PersonListConverter
 
-//data class DBCountries(
-//    @PrimaryKey(autoGenerate = true) val id: Int,
-//    @ColumnInfo(name = "countries")
-//    val countries: List<DBCountry>
-//)
-
 @Entity(tableName = "people_table")
 data class DBCountry(
     @PrimaryKey(autoGenerate = true)

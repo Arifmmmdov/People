@@ -1,14 +1,11 @@
 package com.example.people.activity
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.people.adapter.PeopleRecyclerAdapter
+import com.example.people.adapter.RecyclerAdapter
 import com.example.people.databinding.ActivityMainBinding
 import com.example.people.db.DBCountry
-import com.example.people.helper.FilterDialog
 import com.example.people.viewmodel.PeopleViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -23,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModel: PeopleViewModel
 
-    private var adapter: PeopleRecyclerAdapter? = null
+    private var adapter: RecyclerAdapter? = null
 
     @Inject
     lateinit var name: String
@@ -55,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpViewModel() {
         viewModel.fetchData(false)
-        viewModel.data.observe(this) { data ->
+        viewModel.countryList.observe(this) { data ->
             if (adapter == null) {
                 setUpRecycler(data)
             } else {
@@ -79,7 +76,7 @@ class MainActivity : AppCompatActivity() {
     private fun setUpRecycler(countries: List<DBCountry>?) {
         binding.recyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        adapter = PeopleRecyclerAdapter(this, countries!!)
+        adapter = RecyclerAdapter(this, countries!!)
         binding.recyclerView.adapter = adapter
     }
 }
