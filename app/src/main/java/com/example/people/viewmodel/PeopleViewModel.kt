@@ -51,7 +51,8 @@ class PeopleViewModel @Inject constructor(
     private fun callAPIData() {
         repository.getCountriesFromApi(object : UnaryConsumer<PeopleResponse> {
             override suspend fun invoke(response: PeopleResponse) {
-                repository.insertAll(response.countries)
+                if (response.countries.isNotEmpty())
+                    repository.insertAll(response.countries)
                 _countryList.value = repository.getAll()
                 resetFilter()
             }
@@ -87,11 +88,10 @@ class PeopleViewModel @Inject constructor(
     }
 
     private fun filterItems(isCountry: Boolean, selectedItems: List<String>) {
-        if (isCountry){
+        if (isCountry) {
             _filteredCountry.value = countryList.value!!.filterCountry(selectedItems)
             _filteredCity.value = listOf()
-        }
-        else
+        } else
             _filteredCity.value = filteredCountries().filterCity(selectedItems)
     }
 

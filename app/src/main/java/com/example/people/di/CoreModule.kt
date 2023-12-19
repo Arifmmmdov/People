@@ -1,8 +1,10 @@
 package com.example.people.di
 
 import android.content.Context
+import com.example.people.App
 import com.example.people.db.PeopleDao
 import com.example.people.helper.FilterDialog
+import com.example.people.helper.NetworkHelper
 import com.example.people.network.PeopleAPIService
 import com.example.people.repository.PeopleRepository
 import com.example.people.viewmodel.PeopleViewModel
@@ -28,8 +30,13 @@ object CoreModule {
 //    }
 
     @Provides
-    fun getPeopleRepo(apiService: PeopleAPIService, userDao: PeopleDao): PeopleRepository {
-        return PeopleRepository(apiService, userDao)
+    fun getPeopleRepo(
+        apiService: PeopleAPIService,
+        userDao: PeopleDao,
+        networkHelper: NetworkHelper,
+        @ApplicationContext context: Context,
+    ): PeopleRepository {
+        return PeopleRepository(apiService, userDao, networkHelper, context)
     }
 
     @Provides

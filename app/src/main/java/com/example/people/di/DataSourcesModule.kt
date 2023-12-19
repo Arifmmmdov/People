@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.people.db.PeopleDao
 import com.example.people.db.RoomDB
+import com.example.people.helper.NetworkHelper
 import com.example.people.network.PeopleAPIService
 import dagger.Module
 import dagger.Provides
@@ -35,5 +36,10 @@ object DataSourcesModule {
         return Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
             .baseUrl("http://89.147.202.166:1153/").build().create(PeopleAPIService::class.java)
     }
+
+    @Provides
+    fun getNetworkHelper(@ApplicationContext context: Context): NetworkHelper = NetworkHelper(context)
+
+
 
 }

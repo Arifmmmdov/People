@@ -1,11 +1,13 @@
 package com.example.people.repository
 
 
+import android.content.Context
 import com.example.people.db.DBCountry
 import com.example.people.db.PeopleDao
 import com.example.people.extensions.toDBCountries
 import com.example.people.helper.UnaryConsumer
 import com.example.people.extensions.awaitResult
+import com.example.people.helper.NetworkHelper
 import com.example.people.model.Country
 import com.example.people.model.PeopleResponse
 import com.example.people.network.PeopleAPIService
@@ -19,6 +21,8 @@ import javax.inject.Inject
 class PeopleRepository @Inject constructor(
     private val apiService: PeopleAPIService,
     private val userDao: PeopleDao,
+    private val networkHelper: NetworkHelper,
+    private val context: Context,
 ) {
 
     private fun callCountriesApi(): Call<PeopleResponse> {
@@ -26,7 +30,7 @@ class PeopleRepository @Inject constructor(
     }
 
     private suspend fun getCountriesAsync(): PeopleResponse {
-        return callCountriesApi().awaitResult()
+        return callCountriesApi().awaitResult(context, networkHelper)
     }
 
     fun getCountriesFromApi(
